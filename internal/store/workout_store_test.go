@@ -42,25 +42,25 @@ func TestCreateWorkout(t *testing.T) {
 	store := NewPostgresWorkoutStore(db)
 
 	tests := []struct {
-		name string
+		name    string
 		workout *Workout
 		wantErr bool
 	}{
 		{
 			name: "Valid workout",
 			workout: &Workout{
-				Title: "Push day",
-				Description: "upper body day",
+				Title:           "Push day",
+				Description:     "upper body day",
 				DurationMinutes: 60,
-				CaloriesBurned: 200,
+				CaloriesBurned:  200,
 				Entries: []WorkoutEntry{
 					{
 						ExerciseName: "Push ups",
-						Sets: 3,
-						Reps: IntPtr(10),
-						Weight: FloatPtr(100),
-						Notes: "Rest for 30 seconds between sets",
-						OrderIndex: 1,
+						Sets:         3,
+						Reps:         IntPtr(10),
+						Weight:       FloatPtr(100),
+						Notes:        "Rest for 30 seconds between sets",
+						OrderIndex:   1,
 					},
 				},
 			},
@@ -69,27 +69,27 @@ func TestCreateWorkout(t *testing.T) {
 		{
 			name: "Invalid workout",
 			workout: &Workout{
-				Title: "full body",
-				Description: "complete workout",
+				Title:           "full body",
+				Description:     "complete workout",
 				DurationMinutes: 90,
-				CaloriesBurned: 500,
+				CaloriesBurned:  500,
 				Entries: []WorkoutEntry{
 					{
 						ExerciseName: "Plant",
-						Sets: 3,
-						Reps: IntPtr(60),
-						Weight: FloatPtr(100),
-						Notes: "Rest for 30 seconds between sets",
-						OrderIndex: 1,
+						Sets:         3,
+						Reps:         IntPtr(60),
+						Weight:       FloatPtr(100),
+						Notes:        "Rest for 30 seconds between sets",
+						OrderIndex:   1,
 					},
 					{
-						ExerciseName: "Squats",
-						Sets: 4,
-						Reps: IntPtr(12),
+						ExerciseName:    "Squats",
+						Sets:            4,
+						Reps:            IntPtr(12),
 						DurationSeconds: IntPtr(60),
-						Weight: FloatPtr(100),
-						Notes: "Full depth",
-						OrderIndex: 2,
+						Weight:          FloatPtr(100),
+						Notes:           "Full depth",
+						OrderIndex:      2,
 					},
 				},
 			},

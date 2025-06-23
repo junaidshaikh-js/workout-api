@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/junaidshaikh-js/workout-api/internal/api"
+	"github.com/junaidshaikh-js/workout-api/internal/middleware"
 	"github.com/junaidshaikh-js/workout-api/internal/store"
 	"github.com/junaidshaikh-js/workout-api/migrations"
 )
@@ -17,6 +18,7 @@ type Application struct {
 	WorkoutHandler *api.WorkoutHandler
 	UserHandler    *api.UserHandler
 	TokenHandler   *api.TokenHandler
+	Middleware     middleware.UserMiddleware
 	DB             *sql.DB
 }
 
@@ -44,11 +46,16 @@ func NewApplication() (*Application, error) {
 	tokenStore := store.NewPostgresTokenStore(pgDB)
 	tokenHandler := api.NewTokenHandler(tokenStore, userStore, logger)
 
+	middlewareHandler := middleware.UserMiddleware{
+		UserStore: userStore,
+	}
+
 	app := &Application{
 		Logger:         logger,
 		WorkoutHandler: workoutHandler,
 		UserHandler:    userHandler,
 		TokenHandler:   tokenHandler,
+		Middleware:     middlewareHandler,
 		DB:             pgDB,
 	}
 
@@ -56,5 +63,5 @@ func NewApplication() (*Application, error) {
 }
 
 func (a *Application) HealthCheck(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Health: OK")
+	fmt.Fprintf(w, "Health: OK\n")
 }
